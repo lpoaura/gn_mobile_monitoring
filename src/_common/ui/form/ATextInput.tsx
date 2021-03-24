@@ -1,6 +1,6 @@
-import React from "react";
-import { TextInput, TextInputProps } from "react-native";
+import React, { ComponentProps } from "react";
+import { TextInput } from "react-native-paper";
 
-export function ATextInput(props: TextInputProps) {
+export function ATextInput(props: ComponentProps<typeof TextInput>) {
   return <TextInput {...props} />;
 }

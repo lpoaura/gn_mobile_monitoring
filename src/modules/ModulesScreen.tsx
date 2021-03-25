@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { userService } from "../auth/_services/User.service";
 import { LoaderObservable } from "../_common/loadings/LoaderObservable";
 import { modulesService } from "./_services/Modules.service";
-import { ModulesList } from "./ModulesList";
+import { ModulesList } from "./list/ModulesList";
 import { Screen } from "../_common/ui/Screen";
 
 export const ModulesScreen = observer(() => {

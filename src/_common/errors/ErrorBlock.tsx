@@ -2,6 +2,7 @@ import React from "react";
 import { AppError } from "./_models/appError.model";
 import { errorUtils } from "./_utils/error.utils";
 import { Button, View } from "react-native";
+import { AText } from "../ui/text/AText";
 
 type Props = {
   error?: AppError | string;
@@ -14,7 +15,7 @@ export const ErrorBlock = (props: Props) => {
   }
   return (
     <View>
-      {errorUtils.getErrorMessage(props.error)}
+      <AText>{errorUtils.getErrorMessage(props.error)}</AText>
       {props.onRetry ? (
         <Button onPress={props.onRetry} title="Réessayer" />
       ) : null}

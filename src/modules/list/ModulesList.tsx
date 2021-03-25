@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList } from "react-native";
 import { observer } from "mobx-react-lite";
-import { modulesService } from "./_services/Modules.service";
+import { modulesService } from "../_services/Modules.service";
 import { ModuleItem } from "./ModuleItem";
 
 export const ModulesList = observer(() => {

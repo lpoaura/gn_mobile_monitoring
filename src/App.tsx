@@ -6,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "./auth/LoginScreen";
 import { ModulesScreen } from "./modules/ModulesScreen";
-import { ModuleScreen } from "./modules/ModuleScreen";
+import { ModuleScreen } from "./modules/screen/ModuleScreen";
 import { Route } from "./_configs/RoutesConfig";
 
 const Stack = createStackNavigator();
@@ -17,7 +17,7 @@ const App: () => ReactElement = () => {
       <PaperProvider>
         <StatusBar />
         <Stack.Navigator
-          initialRouteName="Login"
+          initialRouteName={Route.login}
           screenOptions={{
             headerShown: false,
           }}

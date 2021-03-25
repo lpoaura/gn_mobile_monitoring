@@ -1,9 +1,9 @@
 import React from "react";
-import { Module } from "./_models/Modules.model";
-import { ACard } from "../_common/ui/card/ACard";
-import { AText } from "../_common/ui/text/AText";
+import { Module } from "../_models/Modules.model";
+import { ACard } from "../../_common/ui/card/ACard";
+import { AText } from "../../_common/ui/text/AText";
 import { useNavigation } from "@react-navigation/native";
-import { Route } from "../_configs/RoutesConfig";
+import { Route } from "../../_configs/RoutesConfig";
 import { TouchableRipple } from "react-native-paper";
 
 type Props = {
@@ -16,7 +16,7 @@ export function ModuleItem(props: Props) {
     <TouchableRipple
       onPress={() =>
         navigation.navigate(Route.module, {
-          moduleId: props.module.id_module,
+          moduleCode: props.module.module_code,
         })
       }
     >

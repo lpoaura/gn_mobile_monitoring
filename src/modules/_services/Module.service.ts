@@ -9,10 +9,12 @@ import {
   VisitObservation,
   VisitResponse,
 } from "../../visits/_models/Visit.model";
+import { ModuleConfigResponse } from "../_models/ModuleConfig.model";
 
 export class ModuleService {
   moduleCode: string;
   loadingState = new LoadingState<ModuleResponse>();
+  configLoadingState = new LoadingState<ModuleConfigResponse>();
   sitesLoadingState = observable<Record<number, LoadingState<SiteResponse>>>(
     {},
   );
@@ -46,6 +48,18 @@ export class ModuleService {
             }),
           ),
       this.loadingState,
+    );
+  }
+
+  loadConfig() {
+    return loadingUtils.fromPromise(
+      () =>
+        fetchUtils
+          .get<ModuleConfigResponse>(
+            `${appConfig.apiUrl}/monitorings/config/${this.moduleCode}`,
+          )
+          .then(action(({ data }) => data)),
+      this.configLoadingState,
     );
   }
 

@@ -10,7 +10,12 @@ export function SitesListLoader() {
       loadingState={moduleService.loadModule()}
       onRetry={() => moduleService.loadModule()}
     >
-      <SitesList />
+      <LoaderObservable
+        loadingState={moduleService.loadConfig()}
+        onRetry={() => moduleService.loadConfig()}
+      >
+        <SitesList />
+      </LoaderObservable>
     </LoaderObservable>
   );
 }

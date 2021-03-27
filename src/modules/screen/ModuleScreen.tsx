@@ -11,6 +11,7 @@ import { SiteScreen } from "../../sites/screen/SiteScreen";
 import { VisitScreen } from "../../visits/screen/VisitScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ModuleScreenContent } from "./ModuleScreenContent";
+import { ObservationFormScreen } from "../../observations/form/ObservationFormScreen";
 
 type ModuleScreenRouteProp = RouteProp<RootStackParamList, Route.module>;
 const Stack = createStackNavigator();
@@ -31,6 +32,10 @@ export function ModuleScreen() {
         />
         <Stack.Screen name={ModuleRoute.site} component={SiteScreen} />
         <Stack.Screen name={ModuleRoute.visit} component={VisitScreen} />
+        <Stack.Screen
+          name={ModuleRoute.observationForm}
+          component={ObservationFormScreen}
+        />
       </Stack.Navigator>
     </ModuleServiceContext>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { ResourceConfig } from "../../_models/ResourceConfig.model";
+import { ResourceConfig } from "./_models/ResourceConfig.model";
 import { FormProvider, useForm } from "react-hook-form";
 import { GenericInput } from "./GenericInput";
 
@@ -12,7 +12,10 @@ export function GenericForm(props: Props) {
   return (
     <FormProvider {...methods}>
       {Object.entries(props.config.generic).map(([key, config]) => (
-        <GenericInput key={key} config={config} />
+        <GenericInput key={key} name={key} config={config} />
+      ))}
+      {Object.entries(props.config.specific).map(([key, config]) => (
+        <GenericInput key={key} name={key} config={config} />
       ))}
     </FormProvider>
   );

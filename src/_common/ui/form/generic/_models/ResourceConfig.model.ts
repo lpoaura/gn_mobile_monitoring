@@ -1,5 +1,10 @@
 type PropertyKey = string;
 
+export enum SortOrder {
+  ASC = "asc",
+  DESC = "desc",
+}
+
 type BaseGenericConfig = {
   type_widget?: string;
   attribut_label: string;
@@ -61,7 +66,10 @@ export type GenericConfigDataList = BaseGenericConfig & {
   params?: object;
 };
 
-export type GenericConfigNomenclature = GenericConfigDataList & {
+export type GenericConfigNomenclature = Omit<
+  GenericConfigDataList,
+  "type_widget"
+> & {
   type_widget: "nomenclature";
   code_nomenclature_type: string;
   value: {
@@ -70,7 +78,7 @@ export type GenericConfigNomenclature = GenericConfigDataList & {
   };
 };
 
-export type ResourceConfigGeneric =
+export type GenericFormConfig =
   | GenericConfigText
   | GenericConfigDate
   | GenericConfigTime
@@ -89,10 +97,10 @@ export type ResourceConfig = {
   label: string;
   uuid_field_name: string;
   display_properties: PropertyKey[];
-  sorts: { prop: PropertyKey; dir: "desc" | "asc" }[];
-  generic: Record<PropertyKey, ResourceConfigGeneric>;
+  sorts: { prop: PropertyKey; dir: SortOrder }[];
+  generic: Record<PropertyKey, GenericFormConfig>;
   display_list: PropertyKey[];
-  specific: Record<PropertyKey, ResourceConfigGeneric>;
+  specific: Record<PropertyKey, GenericFormConfig>;
   children_types: PropertyKey[] | null;
   parent_type: PropertyKey | null;
   properties_keys: PropertyKey[];

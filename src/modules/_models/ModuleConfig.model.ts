@@ -1,4 +1,4 @@
-import { ResourceConfig } from "../../_common/_models/ResourceConfig.model";
+import { ResourceConfig } from "../../_common/ui/form/generic/_models/ResourceConfig.model";
 
 export type ModuleConfigResponse = {
   last_modif: number;

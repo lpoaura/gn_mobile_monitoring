@@ -13,10 +13,7 @@ export const ModulesScreen = observer(() => {
 
   return (
     <Screen padding={10}>
-      <LoaderObservable
-        loadingState={modulesService.load()}
-        onRetry={() => modulesService.load()}
-      >
+      <LoaderObservable loadingState={modulesService.load()} onRetry={() => modulesService.load()}>
         <ModulesList />
       </LoaderObservable>
     </Screen>

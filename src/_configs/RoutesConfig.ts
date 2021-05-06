@@ -12,14 +12,18 @@ export type RootStackParamList = {
 
 export enum ModuleRoute {
   index = "index",
-  site = "site",
-  visit = "visit",
-  observationForm = "observationForm",
+  resourceForm = "resourceForm",
+  resource = "resource",
 }
+
+export type ResourcesNavigationTree = { resourceId: number; resourceType: string }[];
 
 export type ModuleStackParamList = {
   index: undefined;
-  site: { siteId: number };
-  visit: { visitId: number };
-  observationForm: { visitId: number };
+  resourceForm: {
+    tree: ResourcesNavigationTree;
+  };
+  resource: {
+    tree: ResourcesNavigationTree;
+  };
 };

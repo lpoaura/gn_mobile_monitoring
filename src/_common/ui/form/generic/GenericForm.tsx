@@ -1,7 +1,7 @@
 import React from "react";
-import { ResourceConfig } from "./_models/ResourceConfig.model";
 import { FormProvider, useForm } from "react-hook-form";
 import { GenericInput } from "./GenericInput";
+import { ResourceConfig } from "../../../../resources/_model/ResourceConfig.model";
 
 type Props = {
   config: ResourceConfig;

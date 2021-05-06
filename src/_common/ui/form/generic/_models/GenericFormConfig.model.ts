@@ -1,5 +1,3 @@
-type PropertyKey = string;
-
 export enum SortOrder {
   ASC = "asc",
   DESC = "desc",
@@ -90,19 +88,3 @@ export type GenericFormConfig =
   | GenericConfigTaxonomy
   | GenericConfigNomenclature
   | GenericConfigDataList;
-
-export type ResourceConfig = {
-  id_field_name: PropertyKey;
-  description_field_name: string;
-  label: string;
-  uuid_field_name: string;
-  display_properties: PropertyKey[];
-  sorts: { prop: PropertyKey; dir: SortOrder }[];
-  generic: Record<PropertyKey, GenericFormConfig>;
-  display_list: PropertyKey[];
-  specific: Record<PropertyKey, GenericFormConfig>;
-  children_types: PropertyKey[] | null;
-  parent_type: PropertyKey | null;
-  properties_keys: PropertyKey[];
-  id_table_location: number;
-};

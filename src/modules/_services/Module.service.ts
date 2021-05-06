@@ -1,107 +1,82 @@
-import { LoadingState } from "../../_common/loadings/_models/LoadingState.model";
+import { LoadingState, LoadingStatus } from "../../_common/loadings/_models/LoadingState.model";
 import { loadingUtils } from "../../_common/loadings/_utils/Loading.utils";
 import { fetchUtils } from "../../_common/_utils/Fetch.utils";
 import { appConfig } from "../../_configs/appConfig";
 import { action, IObservableArray, observable } from "mobx";
-import { ModuleResponse, Site } from "../_models/Module.model";
-import { SiteResponse, SiteVisit } from "../../sites/_models/Site.model";
-import {
-  VisitObservation,
-  VisitResponse,
-} from "../../visits/_models/Visit.model";
 import { ModuleConfigResponse } from "../_models/ModuleConfig.model";
+import { Resource, ResourceResponse } from "../../resources/_model/ResourceResponse.model";
+
+type ResourceState = {
+  loadingState: LoadingState;
+  resources: IObservableArray<Resource>;
+};
+
+type ResourcesByParents = Record<number /* parent id*/, ResourceState>;
 
 export class ModuleService {
   moduleCode: string;
-  loadingState = new LoadingState<ModuleResponse>();
+  loadingState = new LoadingState();
   configLoadingState = new LoadingState<ModuleConfigResponse>();
-  sitesLoadingState = observable<Record<number, LoadingState<SiteResponse>>>(
-    {},
-  );
-  visitsLoadingState = observable<Record<number, LoadingState<VisitResponse>>>(
-    {},
-  );
+  module?: ResourceResponse;
 
-  sites = observable.array<Site>([]);
-  visits = observable<Record<number, IObservableArray<SiteVisit> | undefined>>(
-    {},
-  );
-  observations = observable<
-    Record<number, IObservableArray<VisitObservation> | undefined>
-  >({});
+  resources = observable<Record<string, ResourcesByParents>>({});
 
   constructor(moduleCode: string) {
     this.moduleCode = moduleCode;
   }
 
-  loadModule() {
-    return loadingUtils.fromPromise(
-      () =>
-        fetchUtils
-          .get<ModuleResponse>(
-            `${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/module?field_name=module_code&depth=1`,
-          )
-          .then(
-            action(({ data }) => {
-              this.sites.replace(data.children.site);
-              return data;
-            }),
-          ),
-      this.loadingState,
-    );
+  getResourcesChildren(resourceType: string, resourceId: number) {
+    return this.resources[resourceType]?.[resourceId]?.resources;
   }
 
   loadConfig() {
     return loadingUtils.fromPromise(
       () =>
         fetchUtils
-          .get<ModuleConfigResponse>(
-            `${appConfig.apiUrl}/monitorings/config/${this.moduleCode}`,
-          )
+          .get<ModuleConfigResponse>(`${appConfig.apiUrl}/monitorings/config/${this.moduleCode}`)
           .then(action(({ data }) => data)),
       this.configLoadingState,
     );
   }
 
-  loadSite(siteId: number) {
-    if (!this.sitesLoadingState[siteId]) {
-      this.sitesLoadingState[siteId] = new LoadingState<SiteResponse>();
-    }
-    return loadingUtils.fromPromise(
-      () =>
-        fetchUtils
-          .get<SiteResponse>(
-            `${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/site/${siteId}?depth=1`,
-          )
-          .then(
-            action(({ data }) => {
-              this.visits[siteId] = observable.array(data.children.visit);
-              return data;
-            }),
-          ),
-      this.sitesLoadingState[siteId],
-    );
+  loadModule() {
+    return this.loadResource("module");
   }
 
-  loadVisit(visitId: number) {
-    if (!this.visitsLoadingState[visitId]) {
-      this.visitsLoadingState[visitId] = new LoadingState<VisitResponse>();
+  loadResourceChildren(resourceType: string, resourceId: number) {
+    return this.loadResource(resourceType, resourceId);
+  }
+
+  private loadResource(resourceType: string, resourceId?: number) {
+    const isRootResource = resourceId === undefined;
+    if (!isRootResource && !this.resources[resourceType]?.[resourceId!]) {
+      this.resources[resourceType] = this.resources[resourceType] ?? {};
+      this.resources[resourceType][resourceId!] = {
+        loadingState: new LoadingState(),
+        resources: observable.array([]),
+      };
     }
+
+    const url = `${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/${resourceType}${
+      isRootResource ? "" : `/${resourceId}`
+    }?depth=1`;
+
     return loadingUtils.fromPromise(
       () =>
-        fetchUtils
-          .get<VisitResponse>(
-            `${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/visit/${visitId}?depth=1`,
-          )
-          .then(
-            action(({ data }) => {
-              this.observations[visitId] = observable.array(
-                data.children.observation,
-              );
-              return data;
-            }),
-          ),
-      this.visitsLoadingState[visitId],
+        fetchUtils.get<ResourceResponse>(url).then(
+          action(({ data }) => {
+            this.module = data;
+            const childrenResources = Object.entries(data.children);
+            for (const [childResourceType, childResources] of childrenResources) {
+              this.resources[childResourceType] = this.resources[childResourceType] ?? {};
+              this.resources[childResourceType][data.id] = {
+                loadingState: new LoadingState(LoadingStatus.SUCCEEDED),
+                resources: observable.array(childResources),
+              };
+            }
+          }),
+        ),
+      isRootResource ? this.loadingState : this.resources[resourceType][resourceId!].loadingState,
     );
   }
 }

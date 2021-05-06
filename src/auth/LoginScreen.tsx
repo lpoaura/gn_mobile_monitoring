@@ -9,8 +9,8 @@ import { Route } from "../_configs/RoutesConfig";
 export function LoginScreen() {
   const navigation = useNavigation();
   const [loginLoading, setLoginLoading] = useState<Promise<void>>();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("admin");
   const isDisabled = !!loginLoading;
 
   return (
@@ -52,9 +52,7 @@ export function LoginScreen() {
               );
             }}
             title="se connecter"
-            disabled={
-              isDisabled || username.trim() === "" || password.trim() === ""
-            }
+            disabled={isDisabled || username.trim() === "" || password.trim() === ""}
           />
         </View>
       </View>

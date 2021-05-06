@@ -12,14 +12,12 @@ class ModulesService {
   load() {
     return loadingUtils.fromPromise(
       () =>
-        fetchUtils
-          .get<ModulesResponse>(`${appConfig.apiUrl}/monitorings/modules`)
-          .then(
-            action(({ data }) => {
-              this.modules.replace(data);
-              return this.modules;
-            }),
-          ),
+        fetchUtils.get<ModulesResponse>(`${appConfig.apiUrl}/monitorings/modules`).then(
+          action(({ data }) => {
+            this.modules.replace(data);
+            return this.modules;
+          }),
+        ),
       this.loadingState,
     );
   }

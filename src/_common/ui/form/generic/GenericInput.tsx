@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { GenericFormConfig } from "./_models/ResourceConfig.model";
+import { GenericFormConfig } from "./_models/GenericFormConfig.model";
 import { View } from "react-native";
 import { AText } from "../../text/AText";
 import { GenericTextInput } from "./inputs/GenericTextInput";

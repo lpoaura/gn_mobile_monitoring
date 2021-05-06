@@ -1,10 +1,7 @@
-import { ResourceConfig } from "../../_common/ui/form/generic/_models/ResourceConfig.model";
+import { ResourceConfig } from "../../resources/_model/ResourceConfig.model";
 
 export type ModuleConfigResponse = {
   last_modif: number;
-  observation: ResourceConfig;
-  site: ResourceConfig;
-  visit: ResourceConfig;
   taxonomy_display_field_name: string;
   tree: object;
-};
+} & { [resourceType: string]: ResourceConfig | undefined };

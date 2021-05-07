@@ -17,7 +17,7 @@ export class ModuleService {
   moduleCode: string;
   loadingState = new LoadingState();
   configLoadingState = new LoadingState<ModuleConfigResponse>();
-  module?: ResourceResponse;
+  module = observable.box<ResourceResponse>();
 
   resources = observable<Record<string, ResourcesByParents>>({});
 
@@ -34,7 +34,7 @@ export class ModuleService {
       () =>
         fetchUtils
           .get<ModuleConfigResponse>(`${appConfig.apiUrl}/monitorings/config/${this.moduleCode}`)
-          .then(action(({ data }) => data)),
+          .then(({ data }) => data),
       this.configLoadingState,
     );
   }
@@ -47,7 +47,7 @@ export class ModuleService {
     return this.loadResource(resourceType, resourceId);
   }
 
-  private loadResource(resourceType: string, resourceId?: number) {
+  private loadResource = action((resourceType: string, resourceId?: number) => {
     const isRootResource = resourceId === undefined;
     if (!isRootResource && !this.resources[resourceType]?.[resourceId!]) {
       this.resources[resourceType] = this.resources[resourceType] ?? {};
@@ -65,7 +65,9 @@ export class ModuleService {
       () =>
         fetchUtils.get<ResourceResponse>(url).then(
           action(({ data }) => {
-            this.module = data;
+            if (isRootResource) {
+              this.module.set(data);
+            }
             const childrenResources = Object.entries(data.children);
             for (const [childResourceType, childResources] of childrenResources) {
               this.resources[childResourceType] = this.resources[childResourceType] ?? {};
@@ -78,5 +80,5 @@ export class ModuleService {
         ),
       isRootResource ? this.loadingState : this.resources[resourceType][resourceId!].loadingState,
     );
-  }
+  });
 }

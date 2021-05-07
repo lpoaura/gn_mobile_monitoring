@@ -23,17 +23,17 @@ export function ResourceItem(props: Props) {
 
   return (
     <TouchableRipple
-      onPress={() =>
+      onPress={() => {
         navigation.navigate(ModuleRoute.resource, {
           tree: [
             ...props.navigationTree,
             {
               resourceType: props.resource.object_type,
-              id: props.resource.id,
+              resourceId: props.resource.id,
             },
           ],
-        })
-      }
+        });
+      }}
     >
       <ACard style={{ marginBottom: 10, marginLeft: 10, marginRight: 10 }}>
         {resourceConfig.display_list.map(propertyKey => (

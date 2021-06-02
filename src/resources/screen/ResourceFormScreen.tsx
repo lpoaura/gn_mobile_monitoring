@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 import { GenericForm } from "../../_common/ui/form/generic/GenericForm";
 import { useModuleService } from "../../modules/_services/Module.context";
 import { RouteProp, useRoute } from "@react-navigation/native";
@@ -16,14 +16,19 @@ export function ResourceFormScreen(_props: ResourceScreenRouteProp) {
   if (!lastResource) {
     return null;
   }
-  const resourceConfig = config?.[lastResource.resourceType];
+  const childResourceType = moduleService.configLoadingState.value?.[lastResource.resourceType]?.children_types?.[0];
+  if (!childResourceType) {
+    return null;
+  }
+
+  const resourceConfig = config?.[childResourceType];
   if (!resourceConfig) {
     return null;
   }
 
   return (
-    <View>
+    <ScrollView>
       <GenericForm config={resourceConfig} />
-    </View>
+    </ScrollView>
   );
 }

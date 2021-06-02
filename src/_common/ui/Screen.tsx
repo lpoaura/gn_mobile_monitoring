@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 
 type Props = {
   padding?: string | number;
@@ -7,9 +7,9 @@ type Props = {
 };
 
 export function Screen(props: PropsWithChildren<Props>) {
-  const style = { padding: props.padding };
+  const style = { padding: props.padding, flex: 1 };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       {props.noScroll ? (
         <View style={style}>{props.children}</View>
       ) : (
@@ -20,3 +20,9 @@ export function Screen(props: PropsWithChildren<Props>) {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

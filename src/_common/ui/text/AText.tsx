@@ -3,18 +3,26 @@ import { StyleProp, StyleSheet, Text, TextStyle } from "react-native";
 
 type Props = {
   style?: StyleProp<TextStyle>;
-  theme?: "h1" | "h2" | "h3" | "normal" | "text2" | "small";
+  theme?: "logo" | "h1" | "h2" | "h3" | "normal" | "small";
+  color?: string;
 };
 
 export function AText(props: PropsWithChildren<Props>) {
   return (
-    <Text style={[styles[props.theme ?? "normal"], props.style]}>
+    <Text style={[styles.container, styles[props.theme ?? "normal"], { color: props.color ?? "#FFF" }, props.style]}>
       {props.children}
     </Text>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    fontFamily: "Karla-Regular",
+  },
+  logo: {
+    fontSize: 48,
+    fontFamily: "LibreBaskerville-Regular",
+  },
   h1: {},
   h2: {},
   h3: {

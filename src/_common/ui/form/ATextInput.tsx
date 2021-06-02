@@ -1,6 +1,13 @@
 import React, { ComponentProps } from "react";
-import { TextInput } from "react-native-paper";
+import { ColorsTheme } from "../Colors.theme";
+import { TextInput } from "react-native";
 
 export function ATextInput(props: ComponentProps<typeof TextInput>) {
-  return <TextInput {...props} />;
+  return (
+    <TextInput
+      style={{ backgroundColor: "red", borderRadius: 50, padding: "offset" }}
+      selectionColor={ColorsTheme.primary}
+      {...props}
+    />
+  );
 }

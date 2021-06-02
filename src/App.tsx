@@ -8,6 +8,7 @@ import { LoginScreen } from "./auth/LoginScreen";
 import { ModulesScreen } from "./modules/ModulesScreen";
 import { ModuleScreen } from "./modules/screen/ModuleScreen";
 import { Route } from "./_configs/RoutesConfig";
+import { ColorsTheme } from "./_common/ui/Colors.theme";
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,9 @@ const App: () => ReactElement = () => {
           initialRouteName={Route.login}
           screenOptions={{
             headerShown: false,
+            cardStyle: {
+              backgroundColor: ColorsTheme.secondary,
+            },
           }}
         >
           <Stack.Screen name={Route.login} component={LoginScreen} />

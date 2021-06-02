@@ -5,6 +5,7 @@ import { userService } from "./_services/User.service";
 import { useNavigation } from "@react-navigation/native";
 import { Screen } from "../_common/ui/Screen";
 import { Route } from "../_configs/RoutesConfig";
+import { GNMMLogo } from "../_common/ui/logo/GNMMLogo";
 
 export function LoginScreen() {
   const navigation = useNavigation();
@@ -14,16 +15,18 @@ export function LoginScreen() {
   const isDisabled = !!loginLoading;
 
   return (
-    <Screen padding={30}>
+    <Screen padding={30} noScroll>
       <View style={styles.container}>
+        <View style={styles.logo}>
+          <GNMMLogo />
+        </View>
         <ATextInput
           value={username}
           onChangeText={setUsername}
           editable={!isDisabled}
           autoCapitalize="none"
           autoCompleteType="username"
-          label="Identifiant"
-          mode="outlined"
+          placeholder="Identifiant"
           style={styles.input}
         />
         <ATextInput
@@ -33,8 +36,7 @@ export function LoginScreen() {
           secureTextEntry
           autoCapitalize="none"
           autoCompleteType="password"
-          label="Mot de passe"
-          mode="outlined"
+          placeholder="Mot de passe"
           style={styles.input}
         />
         <View style={styles.btn}>
@@ -63,6 +65,10 @@ export function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  logo: {
+    flex: 1,
+    marginTop: 50,
   },
   input: {
     backgroundColor: "#FFF",

@@ -27,7 +27,7 @@ export function ResourceFormScreen(_props: ResourceScreenRouteProp) {
   }
 
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="always">
       <GenericForm config={resourceConfig} />
     </ScrollView>
   );

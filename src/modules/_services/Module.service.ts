@@ -47,6 +47,15 @@ export class ModuleService {
     return this.loadResource(resourceType, resourceId);
   }
 
+  saveResource<T>(parentId: number, resourceType: string, properties: any) {
+    return fetchUtils
+      .post<T>(`${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/${resourceType}`, {
+        id_parent: parentId,
+        properties,
+      })
+      .then(({ data }) => data);
+  }
+
   private loadResource = action((resourceType: string, resourceId?: number) => {
     const isRootResource = resourceId === undefined;
     if (!isRootResource && !this.resources[resourceType]?.[resourceId!]) {

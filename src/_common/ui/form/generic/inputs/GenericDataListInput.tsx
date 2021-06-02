@@ -29,25 +29,44 @@ export function GenericDataListInput(props: Props) {
   }, [items, search, props.config.keyLabel]);
 
   return (
-    <Autocomplete // TODO create a custom component instead of this bad one
-      data={filteredItems}
-      value={field.value}
-      onChangeText={setSearch}
-      keyExtractor={item => item[props.config.keyValue]}
-      renderItem={({ item }) => <AText>{item[props.config.keyLabel]}</AText>}
-      flatListProps={{
-        keyExtractor: item => item[props.config.keyValue],
-        renderItem: ({ item }) => (
-          <TouchableRipple
-            onPress={() => {
-              setSearch(item[props.config.keyValue]);
-              field.onChange(item[props.config.keyValue]);
-            }}
-          >
-            <AText>{(item as any)[props.config.keyLabel]}</AText>
-          </TouchableRipple>
-        ),
-      }}
-    />
+    <>
+      <AText>{search}</AText>
+      <Autocomplete // TODO create a custom component instead of this bad one
+        data={filteredItems}
+        onChangeText={setSearch}
+        keyExtractor={item => item[props.config.keyValue]}
+        renderItem={({ item }) => <AText>{item[props.config.keyLabel]}</AText>}
+        flatListProps={{
+          keyExtractor: item => item[props.config.keyValue],
+          renderItem: ({ item }) => (
+            <TouchableRipple
+              onPress={() => {
+                const selectedValue = item[props.config.keyValue];
+                if (props.config.multiple) {
+                  const newValues = field.value?.length > 0 ? [...field.value] : [];
+                  newValues.includes(selectedValue)
+                    ? newValues.splice(newValues.indexOf(selectedValue), 1)
+                    : newValues.push(selectedValue);
+                  setSearch(
+                    newValues
+                      .map(
+                        value =>
+                          items.find(item_ => item_[props.config.keyValue] === value)?.[props.config.keyLabel] ?? "-",
+                      )
+                      .join(", "),
+                  );
+                  field.onChange(newValues);
+                } else {
+                  setSearch(item[props.config.keyLabel]);
+                  field.onChange(selectedValue);
+                }
+              }}
+            >
+              <AText>{(item as any)[props.config.keyLabel]}</AText>
+            </TouchableRipple>
+          ),
+        }}
+      />
+    </>
   );
 }

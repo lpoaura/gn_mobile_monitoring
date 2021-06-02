@@ -28,7 +28,10 @@ export function ResourceFormScreen(_props: ResourceScreenRouteProp) {
 
   return (
     <ScrollView keyboardShouldPersistTaps="always">
-      <GenericForm config={resourceConfig} />
+      <GenericForm
+        config={resourceConfig}
+        onSubmit={data => moduleService.saveResource(lastResource.resourceId, childResourceType, data)}
+      />
     </ScrollView>
   );
 }

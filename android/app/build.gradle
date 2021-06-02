@@ -131,7 +131,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.geonaturemobileprotocol2"
+        applicationId "com.gnmonitoringmobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

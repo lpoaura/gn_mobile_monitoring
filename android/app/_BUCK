@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.geonaturemobileprotocol2",
+    package = "com.gnmonitoringmobile",
 )
 
 android_resource(
     name = "res",
-    package = "com.geonaturemobileprotocol2",
+    package = "com.gnmonitoringmobile",
     res = "src/main/res",
 )
 

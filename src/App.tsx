@@ -16,14 +16,11 @@ const App: () => ReactElement = () => {
   return (
     <NavigationContainer>
       <PaperProvider>
-        <StatusBar />
+        <StatusBar backgroundColor={ColorsTheme.secondaryDark} />
         <Stack.Navigator
           initialRouteName={Route.login}
           screenOptions={{
             headerShown: false,
-            cardStyle: {
-              backgroundColor: ColorsTheme.secondary,
-            },
           }}
         >
           <Stack.Screen name={Route.login} component={LoginScreen} />

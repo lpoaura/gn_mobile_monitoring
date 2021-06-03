@@ -4,6 +4,7 @@ import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 type Props = {
   padding?: string | number;
   noScroll?: boolean;
+  color?: string;
 };
 
 export function Screen(props: PropsWithChildren<Props>) {

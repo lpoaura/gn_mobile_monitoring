@@ -1,16 +1,17 @@
 import React from "react";
 import { AText } from "../text/AText";
 import { ColorsTheme } from "../Colors.theme";
+import { View } from "react-native";
 
 export function GNMMLogo() {
   return (
-    <>
-      <AText color={ColorsTheme.primary} theme="logo">
+    <View>
+      <AText color={ColorsTheme.textOnSecondary} theme="logo">
         GN
       </AText>
-      <AText color={ColorsTheme.primary} theme="logo" style={{ marginTop: -10 }}>
-        Monitoring
+      <AText color={ColorsTheme.textOnSecondary} theme="logo" style={{ marginTop: -18 }}>
+        MONITORING
       </AText>
-    </>
+    </View>
   );
 }

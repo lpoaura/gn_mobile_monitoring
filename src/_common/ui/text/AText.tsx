@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, Text, TextStyle } from "react-native";
 
 type Props = {
   style?: StyleProp<TextStyle>;
-  theme?: "logo" | "h1" | "h2" | "h3" | "normal" | "small";
+  theme?: "logo" | "h1" | "h2" | "h3" | "normal" | "small" | "title" | "title_big" | "button";
   color?: string;
 };
 
@@ -20,22 +20,31 @@ const styles = StyleSheet.create({
     fontFamily: "Karla-Regular",
   },
   logo: {
-    fontSize: 48,
-    fontFamily: "LibreBaskerville-Regular",
+    fontSize: 45,
+    fontFamily: "Karla-ExtraBold",
+    letterSpacing: -2,
   },
   h1: {},
   h2: {},
   h3: {
-    fontSize: 14,
-    fontWeight: "bold",
+    fontSize: 16,
+    fontFamily: "Karla-ExtraBold",
   },
   normal: {},
-  text2: {
-    opacity: 0.8,
-    fontWeight: "bold",
+  title: {
+    fontFamily: "Karla-ExtraBold",
+    fontSize: 22,
+  },
+  title_big: {
+    fontFamily: "Karla-ExtraBold",
+    fontSize: 26,
   },
   small: {
     fontSize: 12,
     opacity: 0.8,
+  },
+  button: {
+    fontFamily: "Karla-Bold",
+    fontSize: 14,
   },
 });

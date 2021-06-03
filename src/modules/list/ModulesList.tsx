@@ -9,7 +9,7 @@ export const ModulesList = observer(() => {
     <FlatList
       data={modulesService.modules}
       keyExtractor={module => module.id_module.toString()}
-      renderItem={item => <ModuleItem module={item.item} />}
+      renderItem={item => <ModuleItem module={item.item} index={item.index} />}
     />
   );
 });

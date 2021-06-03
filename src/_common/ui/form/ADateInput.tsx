@@ -12,7 +12,7 @@ export function ADateInput(props: Props) {
   return (
     <>
       <TouchableHighlight onPress={() => setShowPicker(true)}>
-        <ATextInput value={displayValue} disabled />
+        <ATextInput value={displayValue} />
       </TouchableHighlight>
       {showPicker && (
         <DateTimePicker

@@ -1,14 +1,18 @@
 import React from "react";
 import { Module } from "../_models/Modules.model";
-import { ACard } from "../../_common/ui/card/ACard";
 import { AText } from "../../_common/ui/text/AText";
 import { useNavigation } from "@react-navigation/native";
 import { Route } from "../../_configs/RoutesConfig";
 import { TouchableRipple } from "react-native-paper";
+import { ColorsTheme } from "../../_common/ui/Colors.theme";
+import { ListItem } from "../../_common/ui/list/ListItem";
+import { View } from "react-native";
 
 type Props = {
   module: Module;
+  index?: number;
 };
+
 export function ModuleItem(props: Props) {
   const navigation = useNavigation();
 
@@ -20,12 +24,16 @@ export function ModuleItem(props: Props) {
         })
       }
     >
-      <ACard style={{ marginBottom: 10, marginLeft: 10, marginRight: 10 }}>
-        <AText theme="h3" style={{ marginBottom: 1 }}>
+      <ListItem odd={!props.index || props.index % 2 === 0}>
+        <AText theme="h3" color={ColorsTheme.textOnPrimary}>
           {props.module.module_label}
         </AText>
-        <AText theme="small">{props.module.module_desc}</AText>
-      </ACard>
+        <View style={{ marginTop: 5, marginBottom: 5 }}>
+          <AText theme="small" color={ColorsTheme.textOnPrimary}>
+            {props.module.module_desc}
+          </AText>
+        </View>
+      </ListItem>
     </TouchableRipple>
   );
 }

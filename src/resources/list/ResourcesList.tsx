@@ -35,7 +35,9 @@ export const ResourcesList = observer((props: Props) => {
     <FlatList<Resource>
       data={resourcesChildren}
       keyExtractor={resource => resource.id.toString()}
-      renderItem={item => <ResourceItem resource={item.item} navigationTree={props.navigationTree ?? [lastResource]} />}
+      renderItem={item => (
+        <ResourceItem resource={item.item} index={item.index} navigationTree={props.navigationTree ?? [lastResource]} />
+      )}
     />
   );
 });

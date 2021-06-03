@@ -1,4 +1,15 @@
 export const ColorsTheme = {
-  primary: "#EFA346",
+  primary: "#efab46",
   secondary: "#1F5152",
+  secondaryDark: "#1d484b",
+  secondaryLight: "#e2eaea",
+  tertiary: "#000",
+  background: "#FFF",
+  buttonDisabled: "#bababa",
+  textOnPrimary: "#000",
+  textOnSecondary: "#FFF",
+  textOnTertiary: "#FFF",
+  textOnBackground: "#000",
+  textOnDisabled: "#828282",
+  separator: "#ececec",
 };

@@ -7,7 +7,7 @@ import { ResourceScreenContent } from "./ResourceScreenContent";
 export function ResourceScreen() {
   const moduleService = useModuleService();
   return (
-    <Screen padding={20} noScroll>
+    <Screen noScroll>
       <LoaderObservable loadingState={moduleService.loadConfig()} onRetry={() => moduleService.loadConfig()}>
         <ResourceScreenContent />
       </LoaderObservable>

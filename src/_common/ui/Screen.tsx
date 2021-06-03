@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { ColorsTheme } from "./Colors.theme";
 
 type Props = {
   padding?: string | number;
@@ -25,5 +26,6 @@ export function Screen(props: PropsWithChildren<Props>) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: ColorsTheme.background,
   },
 });

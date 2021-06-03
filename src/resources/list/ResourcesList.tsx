@@ -1,11 +1,13 @@
 import React from "react";
 import { useModuleService } from "../../modules/_services/Module.context";
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { observer } from "mobx-react-lite";
 import { ResourcesNavigationTree } from "../../_configs/RoutesConfig";
 import _ from "lodash";
 import { ResourceItem } from "./ResourceItem";
 import { Resource } from "../_model/ResourceResponse.model";
+import { AText } from "../../_common/ui/text/AText";
+import { ColorsTheme } from "../../_common/ui/Colors.theme";
 
 type Props = {
   navigationTree?: ResourcesNavigationTree;
@@ -27,8 +29,15 @@ export const ResourcesList = observer((props: Props) => {
     return null;
   }
   const resourcesChildren = moduleService.getResourcesChildren(childResourceType, lastResource.resourceId);
-  if (!resourcesChildren) {
-    return null;
+
+  if (!resourcesChildren || resourcesChildren.length === 0) {
+    return (
+      <View style={styles.emptyContainer}>
+        <AText theme="info" color={ColorsTheme.textOnBackground}>
+          Aucune donnée trouvée
+        </AText>
+      </View>
+    );
   }
 
   return (
@@ -40,4 +49,13 @@ export const ResourcesList = observer((props: Props) => {
       )}
     />
   );
+});
+
+const styles = StyleSheet.create({
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 30,
+  },
 });

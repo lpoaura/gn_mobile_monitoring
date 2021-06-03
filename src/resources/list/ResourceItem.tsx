@@ -7,6 +7,8 @@ import { TouchableRipple } from "react-native-paper";
 import { AText } from "../../_common/ui/text/AText";
 import { ColorsTheme } from "../../_common/ui/Colors.theme";
 import { ListItem } from "../../_common/ui/list/ListItem";
+import { StyleSheet, View } from "react-native";
+import _ from "lodash";
 
 type Props = {
   navigationTree: ResourcesNavigationTree;
@@ -26,6 +28,11 @@ export function ResourceItem(props: Props) {
   return (
     <TouchableRipple
       onPress={() => {
+        const childResourceType =
+          moduleService.configLoadingState.value?.[props.resource.object_type]?.children_types?.[0];
+        if (!childResourceType) {
+          return;
+        }
         navigation.navigate(ModuleRoute.resource, {
           tree: [
             ...props.navigationTree,
@@ -38,13 +45,44 @@ export function ResourceItem(props: Props) {
       }}
     >
       <ListItem odd={!props.index || props.index % 2 === 0}>
-        {resourceConfig.display_list.map(propertyKey => (
-          <AText key={propertyKey} theme="small" color={ColorsTheme.textOnPrimary}>
-            {propertyKey}: {props.resource.properties[propertyKey]}
-          </AText>
-        ))}
-        <AText>{props.resource.object_type}</AText>
+        <View style={styles.content}>
+          {_.chunk(resourceConfig.display_list, 2).map((row, index) => (
+            <View key={index} style={styles.row}>
+              {row.map(propertyKey => (
+                <View key={propertyKey} style={styles.properties}>
+                  <AText theme="small" color={ColorsTheme.textOnPrimary}>
+                    {resourceConfig?.generic[propertyKey]?.attribut_label ??
+                      resourceConfig?.specific[propertyKey]?.attribut_label}
+                  </AText>
+                  <AText theme="normal" color={ColorsTheme.textOnPrimary}>
+                    {props.resource.properties[propertyKey] === "" || props.resource.properties[propertyKey] == null
+                      ? "-"
+                      : props.resource.properties[propertyKey]}
+                  </AText>
+                </View>
+              ))}
+            </View>
+          ))}
+        </View>
       </ListItem>
     </TouchableRipple>
   );
 }
+
+const styles = StyleSheet.create({
+  content: {
+    marginLeft: -10,
+    marginRight: -10,
+    flex: 1,
+  },
+  row: {
+    marginBottom: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  properties: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    flex: 1,
+  },
+});

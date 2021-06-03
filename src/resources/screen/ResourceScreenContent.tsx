@@ -31,7 +31,7 @@ export function ResourceScreenContent() {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.titleContainer}>
         <AText theme="title_big" color={ColorsTheme.secondary}>
           {moduleService.configLoadingState.value?.[childResourceType]?.label.toLowerCase()}s
@@ -51,6 +51,9 @@ export function ResourceScreenContent() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   titleContainer: {
     marginTop: 20,
     paddingLeft: 15,

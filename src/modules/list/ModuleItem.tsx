@@ -21,6 +21,12 @@ export function ModuleItem(props: Props) {
       onPress={() =>
         navigation.navigate(Route.module, {
           moduleCode: props.module.module_code,
+          tree: [
+            {
+              resourceType: "module",
+              resourceId: props.module.id_module,
+            },
+          ],
         })
       }
     >

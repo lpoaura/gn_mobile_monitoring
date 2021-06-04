@@ -12,7 +12,7 @@ export function ResourceFormScreen(_props: ResourceScreenRouteProp) {
   const moduleService = useModuleService();
   const config = moduleService.configLoadingState.value;
   const route = useRoute<ResourceScreenRouteProp>();
-  const lastResource = _.last(route.params.tree);
+  const lastResource = _.last(route.params?.tree);
   if (!lastResource) {
     return null;
   }

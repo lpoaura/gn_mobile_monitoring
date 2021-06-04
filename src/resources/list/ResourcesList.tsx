@@ -24,7 +24,6 @@ export const ResourcesList = observer((props: Props) => {
     resourceId: module.id,
   };
   const childResourceType = moduleService.configLoadingState.value?.[lastResource.resourceType]?.children_types?.[0];
-
   if (!childResourceType) {
     return null;
   }

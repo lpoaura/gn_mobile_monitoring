@@ -16,7 +16,7 @@ export function ModuleScreen() {
   return (
     <ModuleServiceContext moduleService={moduleService}>
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={ModuleRoute.index}>
-        <Stack.Screen name={ModuleRoute.index} component={ResourceScreen} />
+        <Stack.Screen name={ModuleRoute.index} component={ResourceScreen} initialParams={route.params} />
         <Stack.Screen name={ModuleRoute.resource} component={ResourceScreen} />
         <Stack.Screen name={ModuleRoute.resourceForm} component={ResourceFormScreen} />
       </Stack.Navigator>

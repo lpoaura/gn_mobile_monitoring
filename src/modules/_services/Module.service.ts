@@ -57,7 +57,7 @@ export class ModuleService {
   }
 
   private loadResource = action((resourceType: string, resourceId?: number) => {
-    const isRootResource = resourceId === undefined;
+    const isRootResource = resourceType === "module";
     if (!isRootResource && !this.resources[resourceType]?.[resourceId!]) {
       this.resources[resourceType] = this.resources[resourceType] ?? {};
       this.resources[resourceType][resourceId!] = {

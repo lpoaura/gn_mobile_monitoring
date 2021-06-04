@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import React from "react";
-import { StatusBar } from "react-native";
+import { LogBox, StatusBar } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -9,6 +9,8 @@ import { ModulesScreen } from "./modules/ModulesScreen";
 import { ModuleScreen } from "./modules/screen/ModuleScreen";
 import { Route } from "./_configs/RoutesConfig";
 import { ColorsTheme } from "./_common/ui/Colors.theme";
+
+LogBox.ignoreLogs(["Require cycle:"]);
 
 const Stack = createStackNavigator();
 

@@ -9,6 +9,7 @@ import { GNMMLogo } from "../_common/ui/logo/GNMMLogo";
 import { ColorsTheme } from "../_common/ui/Colors.theme";
 import { AText } from "../_common/ui/text/AText";
 import { AButton } from "../_common/ui/btn/AButton";
+import { TopographyImage } from "../_common/ui/images/TopographyImage";
 
 export function LoginScreen() {
   const navigation = useNavigation();
@@ -29,64 +30,79 @@ export function LoginScreen() {
   return (
     <Screen noScroll color={ColorsTheme.secondary}>
       <View style={styles.container}>
-        <View style={styles.logo}>
-          <GNMMLogo />
+        <View style={styles.background}>
+          <TopographyImage />
         </View>
-        <Animated.View style={[styles.loginBox, { transform: [{ translateY: translateAnim }] }]}>
-          <View style={styles.loginBoxTitle}>
-            <AText theme="title" color={ColorsTheme.textOnBackground}>
-              connexion
-            </AText>
+        <View style={styles.innerContainer}>
+          <View style={styles.logo}>
+            <GNMMLogo />
           </View>
-          <ATextInput
-            value={username}
-            onChangeText={setUsername}
-            editable={!isDisabled}
-            autoCapitalize="none"
-            autoCompleteType="username"
-            placeholder="identifiant"
-            style={styles.input}
-          />
-          <ATextInput
-            value={password}
-            onChangeText={setPassword}
-            editable={!isDisabled}
-            secureTextEntry
-            autoCapitalize="none"
-            autoCompleteType="password"
-            placeholder="mot de passe"
-            style={styles.input}
-          />
-          <View style={styles.btn}>
-            <AButton
-              onPress={() => {
-                setLoginLoading(
-                  userService
-                    .login(username, password)
-                    .then(() => {
-                      (navigation as any).replace(Route.modules);
-                    })
-                    .catch(() => {
-                      setLoginLoading(undefined);
-                    }),
-                );
-              }}
-              disabled={isDisabled || username.trim() === "" || password.trim() === ""}
-              theme="primary"
-            >
-              se connecter
-            </AButton>
-          </View>
-        </Animated.View>
+          <Animated.View style={[styles.loginBox, { transform: [{ translateY: translateAnim }] }]}>
+            <View style={styles.loginBoxTitle}>
+              <AText theme="title" color={ColorsTheme.textOnBackground}>
+                connexion
+              </AText>
+            </View>
+            <ATextInput
+              value={username}
+              onChangeText={setUsername}
+              editable={!isDisabled}
+              autoCapitalize="none"
+              autoCompleteType="username"
+              placeholder="identifiant"
+              style={styles.input}
+            />
+            <ATextInput
+              value={password}
+              onChangeText={setPassword}
+              editable={!isDisabled}
+              secureTextEntry
+              autoCapitalize="none"
+              autoCompleteType="password"
+              placeholder="mot de passe"
+              style={styles.input}
+            />
+            <View style={styles.btn}>
+              <AButton
+                onPress={() => {
+                  setLoginLoading(
+                    userService
+                      .login(username, password)
+                      .then(() => {
+                        (navigation as any).replace(Route.modules);
+                      })
+                      .catch(() => {
+                        setLoginLoading(undefined);
+                      }),
+                  );
+                }}
+                disabled={isDisabled || username.trim() === "" || password.trim() === ""}
+                theme="primary"
+              >
+                se connecter
+              </AButton>
+            </View>
+          </Animated.View>
+        </View>
       </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   container: {
     flex: 1,
     backgroundColor: ColorsTheme.secondary,
+  },
+  innerContainer: {
+    flex: 1,
   },
   logo: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { GenericForm } from "../../_common/ui/form/generic/GenericForm";
 import { useModuleService } from "../../modules/_services/Module.context";
 import { RouteProp, useRoute } from "@react-navigation/native";
@@ -28,10 +28,18 @@ export function ResourceFormScreen(_props: ResourceScreenRouteProp) {
 
   return (
     <ScrollView keyboardShouldPersistTaps="always">
-      <GenericForm
-        config={resourceConfig}
-        onSubmit={data => moduleService.saveResource(lastResource.resourceId, childResourceType, data)}
-      />
+      <View style={styles.form}>
+        <GenericForm
+          config={resourceConfig}
+          onSubmit={data => moduleService.saveResource(lastResource.resourceId, childResourceType, data)}
+        />
+      </View>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  form: {
+    padding: 10,
+  },
+});

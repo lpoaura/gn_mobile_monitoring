@@ -2,7 +2,9 @@ import React, { ComponentProps } from "react";
 import { ColorsTheme } from "../Colors.theme";
 import { StyleSheet, TextInput } from "react-native";
 
-export function ATextInput(props: ComponentProps<typeof TextInput> & { color?: string }) {
+export type ATextInputProps = ComponentProps<typeof TextInput> & { color?: string };
+
+export function ATextInput(props: ATextInputProps) {
   return (
     <TextInput
       {...props}

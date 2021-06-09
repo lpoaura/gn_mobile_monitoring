@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { GenericFormConfig } from "./_models/GenericFormConfig.model";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { AText } from "../../text/AText";
 import { GenericTextInput } from "./inputs/GenericTextInput";
 import { GenericNumberInput } from "./inputs/GenericNumberInput";
@@ -8,6 +8,7 @@ import { GenericDateInput } from "./inputs/GenericDateInput";
 import { GenericTimeInput } from "./inputs/GenericTimeInput";
 import { GenericSelectInput } from "./inputs/GenericSelectInput";
 import { GenericDataListInput } from "./inputs/GenericDataListInput";
+import { ColorsTheme } from "../../Colors.theme";
 
 type Props = {
   name: string;
@@ -40,13 +41,24 @@ export function GenericInput(props: Props) {
       input = <GenericDataListInput name={props.name} config={props.config} />;
       break;
     default:
-      input = <AText>Widget non supporté: {props.config.type_widget}</AText>;
+      input = <AText color={ColorsTheme.textOnBackground}>Widget non supporté: {props.config.type_widget}</AText>;
   }
 
   return (
-    <View>
-      <AText>{props.config.attribut_label}</AText>
+    <View style={styles.container}>
+      <AText color={ColorsTheme.textOnBackground} style={styles.label}>
+        {props.config.attribut_label}
+      </AText>
       {input}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 15,
+  },
+  label: {
+    marginBottom: 5,
+  },
+});

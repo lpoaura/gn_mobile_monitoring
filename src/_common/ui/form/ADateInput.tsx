@@ -2,18 +2,18 @@ import React from "react";
 import DateTimePicker, { AndroidNativeProps, IOSNativeProps } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import { ATextInput } from "./ATextInput";
-import { TouchableHighlight } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 type Props = IOSNativeProps | AndroidNativeProps;
 
 export function ADateInput(props: Props) {
   const [showPicker, setShowPicker] = React.useState(false);
-  const displayValue = dayjs(props.value).format(props.mode === "time" ? "HH:mm" : "DD/MM/YYYY HH:mm");
+  const displayValue = dayjs(props.value).format(props.mode === "time" ? "HH:mm" : "DD/MM/YYYY");
   return (
     <>
-      <TouchableHighlight onPress={() => setShowPicker(true)}>
-        <ATextInput value={displayValue} />
-      </TouchableHighlight>
+      <TouchableOpacity onPress={() => setShowPicker(true)}>
+        <ATextInput value={displayValue} editable={false} />
+      </TouchableOpacity>
       {showPicker && (
         <DateTimePicker
           {...props}

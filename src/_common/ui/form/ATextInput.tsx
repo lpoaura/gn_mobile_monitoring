@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     fontFamily: "Karla-Bold",
     backgroundColor: "rgba(0, 0, 0, .1)",
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
 });

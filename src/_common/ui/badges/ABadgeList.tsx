@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { ABadge } from "./ABadge";
 
 type Props = {
@@ -13,12 +13,16 @@ export function ABadgeList(props: Props) {
     <View style={styles.container}>
       {props.badges.map(({ key, label }) => (
         <View key={key} style={styles.badge}>
-          <ABadge label={label} onClick={() => props.onClick?.(key)} />
+          <TouchableOpacity onPress={() => props.onClick?.(key)}>
+            <ABadge label={label} theme="secondary" />
+          </TouchableOpacity>
         </View>
       ))}
       {props.onAdd && (
         <View style={styles.badge}>
-          <ABadge label="Ajouter" onClick={() => props.onAdd?.()} />
+          <TouchableOpacity onPress={() => props.onAdd?.()}>
+            <ABadge label="ajouter" theme="primary" />
+          </TouchableOpacity>
         </View>
       )}
     </View>

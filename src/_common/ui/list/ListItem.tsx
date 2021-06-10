@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   odd: {
-    backgroundColor: ColorsTheme.secondaryLight,
+    backgroundColor: ColorsTheme.secondaryLightest,
   },
 });

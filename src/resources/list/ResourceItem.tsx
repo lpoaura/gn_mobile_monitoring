@@ -33,7 +33,7 @@ export function ResourceItem(props: Props) {
         if (!childResourceType) {
           return;
         }
-        navigation.navigate(ModuleRoute.resource, {
+        (navigation as any).push(ModuleRoute.resource, {
           tree: [
             ...props.navigationTree,
             {

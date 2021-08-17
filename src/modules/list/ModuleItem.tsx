@@ -19,7 +19,7 @@ export function ModuleItem(props: Props) {
   return (
     <TouchableRipple
       onPress={() =>
-        navigation.navigate(Route.module, {
+        (navigation as any).push(Route.module, {
           moduleCode: props.module.module_code,
           tree: [
             {

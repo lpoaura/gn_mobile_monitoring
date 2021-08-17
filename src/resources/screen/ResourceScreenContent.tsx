@@ -9,6 +9,7 @@ import { useModuleService } from "../../modules/_services/Module.context";
 import { AText } from "../../_common/ui/text/AText";
 import { ColorsTheme } from "../../_common/ui/Colors.theme";
 import Icon from "react-native-vector-icons/Feather";
+import { ResourceBreadcrumb } from "./ResourceBreadcrumb";
 
 type ResourceScreenRouteProp = RouteProp<ModuleStackParamList, ModuleRoute.resource>;
 
@@ -43,6 +44,7 @@ export function ResourceScreenContent() {
         />
       </View>
       <LoaderObservable loadingState={loadCallback()} onRetry={loadCallback}>
+        <ResourceBreadcrumb />
         <ResourcesList navigationTree={isRootResource ? undefined : route.params.tree} />
       </LoaderObservable>
     </View>

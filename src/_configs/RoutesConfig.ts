@@ -1,3 +1,5 @@
+import { ResourcePath } from "../modules/_services/Module.service";
+
 export enum Route {
   login = "login",
   modules = "modules",
@@ -16,7 +18,7 @@ export enum ModuleRoute {
   resource = "resource",
 }
 
-export type ResourcesNavigationTree = { resourceId: number; resourceType: string }[];
+export type ResourcesNavigationTree = ResourcePath;
 
 export type ModuleStackParamList = {
   index: undefined;

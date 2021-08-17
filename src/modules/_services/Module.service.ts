@@ -6,12 +6,15 @@ import { action, IObservableArray, observable } from "mobx";
 import { ModuleConfigResponse } from "../_models/ModuleConfig.model";
 import { Resource, ResourceResponse } from "../../resources/_model/ResourceResponse.model";
 
+export type ResourcePath = { resourceId: number; resourceType: string }[];
+
 type ResourceState = {
   loadingState: LoadingState;
   resources: IObservableArray<Resource>;
+  parent?: Resource;
 };
 
-type ResourcesByParents = Record<number /* parent id*/, ResourceState>;
+type ResourcesByParents = Record<number /* parent id */, ResourceState>;
 
 export class ModuleService {
   moduleCode: string;
@@ -19,14 +22,15 @@ export class ModuleService {
   configLoadingState = new LoadingState<ModuleConfigResponse>();
   module = observable.box<ResourceResponse>();
 
-  resources = observable<Record<string, ResourcesByParents>>({});
+  resourcesChildren = observable<Record<string, ResourcesByParents>>({});
+  resources = observable<Record<string, Record<number /* id */, Resource>>>({});
 
   constructor(moduleCode: string) {
     this.moduleCode = moduleCode;
   }
 
   getResourcesChildren(resourceType: string, resourceId: number) {
-    return this.resources[resourceType]?.[resourceId]?.resources;
+    return this.resourcesChildren[resourceType]?.[resourceId]?.resources;
   }
 
   loadConfig() {
@@ -47,6 +51,14 @@ export class ModuleService {
     return this.loadResource(resourceType, resourceId);
   }
 
+  getResource(resourceType: string, resourceId: number) {
+    return this.resources[resourceType]?.[resourceId];
+  }
+
+  getResourceConfig(resourceType: string) {
+    return this.configLoadingState.value?.[resourceType];
+  }
+
   saveResource<T>(parentId: number, resourceType: string, properties: any) {
     return fetchUtils
       .post<T>(`${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/${resourceType}`, {
@@ -58,9 +70,9 @@ export class ModuleService {
 
   private loadResource = action((resourceType: string, resourceId?: number) => {
     const isRootResource = resourceType === "module";
-    if (!isRootResource && !this.resources[resourceType]?.[resourceId!]) {
-      this.resources[resourceType] = this.resources[resourceType] ?? {};
-      this.resources[resourceType][resourceId!] = {
+    if (!isRootResource && !this.resourcesChildren[resourceType]?.[resourceId!]) {
+      this.resourcesChildren[resourceType] = this.resourcesChildren[resourceType] ?? {};
+      this.resourcesChildren[resourceType][resourceId!] = {
         loadingState: new LoadingState(),
         resources: observable.array([]),
       };
@@ -77,17 +89,26 @@ export class ModuleService {
             if (isRootResource) {
               this.module.set(data);
             }
+            if (resourceId !== undefined) {
+              this.resources[resourceType] = this.resources[resourceType] ?? {};
+              this.resources[resourceType][resourceId] = data;
+            }
             const childrenResources = Object.entries(data.children);
             for (const [childResourceType, childResources] of childrenResources) {
-              this.resources[childResourceType] = this.resources[childResourceType] ?? {};
-              this.resources[childResourceType][data.id] = {
+              for (const childResource of childResources) {
+                this.resources[childResourceType] = this.resources[childResourceType] ?? {};
+                this.resources[childResourceType][childResource.id] = childResource;
+              }
+              this.resourcesChildren[childResourceType] = this.resourcesChildren[childResourceType] ?? {};
+              this.resourcesChildren[childResourceType][data.id] = {
                 loadingState: new LoadingState(LoadingStatus.SUCCEEDED),
                 resources: observable.array(childResources),
+                parent: data,
               };
             }
           }),
         ),
-      isRootResource ? this.loadingState : this.resources[resourceType][resourceId!].loadingState,
+      isRootResource ? this.loadingState : this.resourcesChildren[resourceType][resourceId!].loadingState,
     );
   });
 }

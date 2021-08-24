@@ -3,6 +3,7 @@ import { fetchUtils } from "../_utils/Fetch.utils";
 import { appConfig } from "../../_configs/appConfig";
 
 const cache: Record<string, Promise<any>> = {};
+
 export const DataListUtils = {
   fetchItems<T = any>(config: GenericConfigDataList): Promise<T[]> {
     let url = `${appConfig.apiUrl}/${config.api}`;

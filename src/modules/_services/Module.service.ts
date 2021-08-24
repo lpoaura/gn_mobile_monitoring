@@ -65,7 +65,15 @@ export class ModuleService {
         id_parent: parentId,
         properties,
       })
-      .then(({ data }) => data);
+      .then(
+        ({ data }) => {
+          return data;
+        },
+        err => {
+          console.error("ModuleService.saveResource", err);
+          throw err;
+        },
+      );
   }
 
   private loadResource = action((resourceType: string, resourceId?: number) => {

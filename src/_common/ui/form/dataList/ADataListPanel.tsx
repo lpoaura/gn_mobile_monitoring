@@ -7,14 +7,14 @@ import { AText } from "../../text/AText";
 import { ColorsTheme } from "../../Colors.theme";
 import Icon from "react-native-vector-icons/Feather";
 
-type Props<T> = {
+type Props<T, TKey> = {
   onSelect: (value: T) => void;
   onClose: () => void;
   fetch: (search: string) => Promise<T[]>;
-  getKeyAndLabel: (option: T) => { key: string; label: string };
+  getKeyAndLabel: (option: T) => { key: TKey; label: string };
 };
 
-export function ADataListPanel<T>(props: Props<T>) {
+export function ADataListPanel<T, TKey>({ fetch, ...props }: Props<T, TKey>) {
   const [searchedText, setSearchedText] = React.useState("");
   const [loading, setLoading] = React.useState(true);
   const [options, setOptions] = React.useState<T[]>([]);
@@ -22,7 +22,7 @@ export function ADataListPanel<T>(props: Props<T>) {
   React.useEffect(() => {
     let active = true;
     setLoading(true);
-    props.fetch(searchedText).then(results => {
+    fetch(searchedText).then(results => {
       if (active) {
         setOptions(results);
         setLoading(false);
@@ -31,7 +31,7 @@ export function ADataListPanel<T>(props: Props<T>) {
     return () => {
       active = false;
     };
-  }, [searchedText, props.fetch]);
+  }, [searchedText, fetch]);
 
   return (
     <View style={styles.container}>
@@ -51,7 +51,7 @@ export function ADataListPanel<T>(props: Props<T>) {
         ) : (
           <FlatList
             data={options}
-            keyExtractor={option => props.getKeyAndLabel(option).key}
+            keyExtractor={option => props.getKeyAndLabel(option).key + ""}
             renderItem={({ item }) => {
               const { label } = props.getKeyAndLabel(item);
               return (

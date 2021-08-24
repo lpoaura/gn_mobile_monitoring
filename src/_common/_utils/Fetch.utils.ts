@@ -35,12 +35,9 @@ function executeRequest<T>(url: string, fetchOptions: Partial<Request>) {
         //should not be done here, the api should return the right content type instead
         data = JSON.parse(data);
       } catch (e) {}
-
       if (response.status >= 400) {
         error = {
-          key: data?.type
-            ? "errors.api." + data.type
-            : "errors.global.unknownLight",
+          key: data?.type ? "errors.api." + data.type : "errors.global.unknownLight",
           message: data?.msg,
           code: response.status,
         };
@@ -60,8 +57,7 @@ function executeRequestWithBody<T>(
   body: any,
   isFormData: boolean,
 ) {
-  const headers =
-    fetchOptions?.headers ?? new (Headers ?? (global as any).Headers)();
+  const headers = fetchOptions?.headers ?? new (Headers ?? (global as any).Headers)();
   if (!isFormData && !headers.get("Content-Type")) {
     headers.append("Content-Type", "application/json");
   }
@@ -76,46 +72,16 @@ export const fetchUtils = {
     return executeRequest<T>(url, { ...fetchOptions, method: "GET" });
   },
 
-  patch<T>(
-    url: string,
-    body: any = {},
-    isFormData = false,
-    fetchOptions?: Partial<Request>,
-  ) {
-    return executeRequestWithBody<T>(
-      url,
-      { ...fetchOptions, method: "PATCH" },
-      body,
-      isFormData,
-    );
+  patch<T>(url: string, body: any = {}, isFormData = false, fetchOptions?: Partial<Request>) {
+    return executeRequestWithBody<T>(url, { ...fetchOptions, method: "PATCH" }, body, isFormData);
   },
 
-  post<T>(
-    url: string,
-    body: any = {},
-    isFormData = false,
-    fetchOptions?: Partial<Request>,
-  ) {
-    return executeRequestWithBody<T>(
-      url,
-      { ...fetchOptions, method: "POST" },
-      body,
-      isFormData,
-    );
+  post<T>(url: string, body: any = {}, isFormData = false, fetchOptions?: Partial<Request>) {
+    return executeRequestWithBody<T>(url, { ...fetchOptions, method: "POST" }, body, isFormData);
   },
 
-  put<T>(
-    url: string,
-    body: any = {},
-    isFormData = false,
-    fetchOptions?: Partial<Request>,
-  ) {
-    return executeRequestWithBody<T>(
-      url,
-      { ...fetchOptions, method: "PUT" },
-      body,
-      isFormData,
-    );
+  put<T>(url: string, body: any = {}, isFormData = false, fetchOptions?: Partial<Request>) {
+    return executeRequestWithBody<T>(url, { ...fetchOptions, method: "PUT" }, body, isFormData);
   },
 
   delete<T>(url: string, fetchOptions?: Partial<Request>) {

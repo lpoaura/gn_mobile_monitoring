@@ -10,24 +10,31 @@ type Props = {
 };
 
 export function GenericDataListInput(props: Props) {
+  const itemsIndexRef = React.useRef<Partial<Record<string, any>>>({});
   const { control } = useFormContext();
   const { field } = useController({
     control,
     name: props.name,
   });
-
   return (
-    <ADataListInput
+    <ADataListInput<any, any>
       fetch={search =>
         DataListUtils.fetchItems(props.config).then(
-          fetchItems =>
-            fetchItems.filter(item => item[props.config.keyLabel].toLowerCase().indexOf(search.toLowerCase()) >= 0), // TODO fuzzy search
+          fetchItems => {
+            fetchItems.map(item => {
+              itemsIndexRef.current[item[props.config.keyValue]] = item;
+            });
+            return fetchItems.filter(
+              item => item[props.config.keyLabel].toLowerCase().indexOf(search.toLowerCase()) >= 0,
+            );
+          }, // TODO fuzzy search
         )
       }
       getKeyAndLabel={value => ({ key: value[props.config.keyValue], label: value[props.config.keyLabel] })}
       value={field.value}
       onChange={field.onChange}
       multiple={props.config.multiple}
+      getLabel={itemKey => itemsIndexRef.current[itemKey][props.config.keyLabel] ?? "-"}
     />
   );
 }

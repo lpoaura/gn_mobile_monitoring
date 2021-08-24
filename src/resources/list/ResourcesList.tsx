@@ -41,7 +41,7 @@ export const ResourcesList = observer((props: Props) => {
 
   return (
     <FlatList<Resource>
-      data={resourcesChildren}
+      data={resourcesChildren.slice()}
       keyExtractor={resource => resource.id.toString()}
       renderItem={item => (
         <ResourceItem resource={item.item} index={item.index} navigationTree={props.navigationTree ?? [lastResource]} />

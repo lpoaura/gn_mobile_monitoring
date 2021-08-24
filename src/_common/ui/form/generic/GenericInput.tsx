@@ -48,6 +48,7 @@ export function GenericInput(props: Props) {
     <View style={styles.container}>
       <AText color={ColorsTheme.textOnBackground} style={styles.label}>
         {props.config.attribut_label}
+        {props.config.required ? "*" : ""}
       </AText>
       {input}
     </View>

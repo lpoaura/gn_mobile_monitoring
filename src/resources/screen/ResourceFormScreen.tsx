@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { GenericForm } from "../../_common/ui/form/generic/GenericForm";
 import { useModuleService } from "../../modules/_services/Module.context";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { ModuleRoute, ModuleStackParamList } from "../../_configs/RoutesConfig";
 import _ from "lodash";
 import { AText } from "../../_common/ui/text/AText";
@@ -11,6 +11,7 @@ import { ColorsTheme } from "../../_common/ui/Colors.theme";
 type ResourceScreenRouteProp = RouteProp<ModuleStackParamList, ModuleRoute.resourceForm>;
 
 export function ResourceFormScreen(_props: ResourceScreenRouteProp) {
+  const navigation = useNavigation();
   const moduleService = useModuleService();
   const config = moduleService.configLoadingState.value;
   const route = useRoute<ResourceScreenRouteProp>();
@@ -35,7 +36,11 @@ export function ResourceFormScreen(_props: ResourceScreenRouteProp) {
       </AText>
       <GenericForm
         config={resourceConfig}
-        onSubmit={data => moduleService.saveResource(lastResource.resourceId, childResourceType, data)}
+        onSubmit={data =>
+          moduleService.saveResource(lastResource.resourceId, childResourceType, data).then(() => {
+            (navigation as any).pop(1);
+          })
+        }
       />
     </View>
   );

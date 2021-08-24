@@ -59,14 +59,17 @@ export class ModuleService {
     return this.configLoadingState.value?.[resourceType];
   }
 
-  saveResource<T>(parentId: number, resourceType: string, properties: any) {
+  saveResource(parentId: number, resourceType: string, properties: any) {
     return fetchUtils
-      .post<T>(`${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/${resourceType}`, {
+      .post<Resource>(`${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/${resourceType}`, {
         id_parent: parentId,
         properties,
       })
       .then(
         ({ data }) => {
+          if (this.resourcesChildren[resourceType][parentId]) {
+            this.resourcesChildren[resourceType][parentId].resources.push(data);
+          }
           return data;
         },
         err => {

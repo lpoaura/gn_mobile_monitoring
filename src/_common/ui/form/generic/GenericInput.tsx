@@ -10,6 +10,7 @@ import { GenericSelectInput } from "./inputs/GenericSelectInput";
 import { GenericDataListInput } from "./inputs/dataList/GenericDataListInput";
 import { ColorsTheme } from "../../Colors.theme";
 import { GenericNomenclatureInput } from "./inputs/nomenclature/GenericNomenclatureInput";
+import { GenericCheckboxInput } from "./inputs/GenericCheckboxInput";
 
 type Props = {
   name: string;
@@ -43,6 +44,9 @@ export function GenericInput(props: Props) {
       break;
     case "nomenclature":
       input = <GenericNomenclatureInput name={props.name} config={props.config} />;
+      break;
+    case "bool_checkbox":
+      input = <GenericCheckboxInput name={props.name} config={props.config} />;
       break;
     default:
       input = <AText color={ColorsTheme.textOnBackground}>Widget non supporté: {props.config.type_widget}</AText>;

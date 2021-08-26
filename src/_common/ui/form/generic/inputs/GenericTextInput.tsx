@@ -1,6 +1,6 @@
 import React from "react";
 import { GenericConfigText } from "../_models/GenericFormConfig.model";
-import { ATextInput } from "../../ATextInput";
+import { ATextInput } from "../../inputs/ATextInput";
 import { useController, useFormContext } from "react-hook-form";
 
 type Props = {

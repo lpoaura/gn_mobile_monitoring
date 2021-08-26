@@ -7,8 +7,9 @@ import { GenericNumberInput } from "./inputs/GenericNumberInput";
 import { GenericDateInput } from "./inputs/GenericDateInput";
 import { GenericTimeInput } from "./inputs/GenericTimeInput";
 import { GenericSelectInput } from "./inputs/GenericSelectInput";
-import { GenericDataListInput } from "./inputs/GenericDataListInput";
+import { GenericDataListInput } from "./inputs/dataList/GenericDataListInput";
 import { ColorsTheme } from "../../Colors.theme";
+import { GenericNomenclatureInput } from "./inputs/nomenclature/GenericNomenclatureInput";
 
 type Props = {
   name: string;
@@ -39,6 +40,9 @@ export function GenericInput(props: Props) {
       break;
     case "datalist":
       input = <GenericDataListInput name={props.name} config={props.config} />;
+      break;
+    case "nomenclature":
+      input = <GenericNomenclatureInput name={props.name} config={props.config} />;
       break;
     default:
       input = <AText color={ColorsTheme.textOnBackground}>Widget non supporté: {props.config.type_widget}</AText>;

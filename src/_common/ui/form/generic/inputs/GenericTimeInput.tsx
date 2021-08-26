@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { GenericConfigTime } from "../_models/GenericFormConfig.model";
 import { useController, useFormContext } from "react-hook-form";
-import { ADateInput } from "../../ADateInput";
+import { ADateInput } from "../../inputs/ADateInput";
 
 type Props = {
   name: string;

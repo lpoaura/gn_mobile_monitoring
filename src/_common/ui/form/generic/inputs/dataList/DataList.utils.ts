@@ -1,6 +1,6 @@
-import { GenericConfigDataList } from "../ui/form/generic/_models/GenericFormConfig.model";
-import { fetchUtils } from "../_utils/Fetch.utils";
-import { instancesService } from "../../instances/_services/Instances.service";
+import { GenericConfigDataList } from "../../_models/GenericFormConfig.model";
+import { fetchUtils } from "../../../../../_utils/Fetch.utils";
+import { instancesService } from "../../../../../../instances/_services/Instances.service";
 
 const cache: Record<string, Promise<any>> = {};
 

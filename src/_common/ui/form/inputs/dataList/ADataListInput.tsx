@@ -1,9 +1,9 @@
 import React from "react";
 import { ATextInput, ATextInputProps } from "../ATextInput";
-import { AModal } from "../../modals/AModal";
+import { AModal } from "../../../modals/AModal";
 import { TouchableOpacity } from "react-native";
 import { ADataListPanel } from "./ADataListPanel";
-import { ABadgeList } from "../../badges/ABadgeList";
+import { ABadgeList } from "../../../badges/ABadgeList";
 
 type BaseProps<T, TApi> = {
   fetch: (search: string) => Promise<TApi[]>;

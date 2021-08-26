@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { GenericConfigSelect } from "../_models/GenericFormConfig.model";
 import { useController, useFormContext } from "react-hook-form";
-import { ASelectInput } from "../../ASelectInput";
+import { ASelectInput } from "../../inputs/ASelectInput";
 
 type Props = {
   name: string;

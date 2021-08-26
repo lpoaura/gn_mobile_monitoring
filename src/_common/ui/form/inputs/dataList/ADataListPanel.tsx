@@ -1,10 +1,10 @@
 import React from "react";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { ATextInput } from "../ATextInput";
-import { Spinner } from "../../../loadings/Spinner";
-import { ListItem } from "../../list/ListItem";
-import { AText } from "../../text/AText";
-import { ColorsTheme } from "../../Colors.theme";
+import { Spinner } from "../../../../loadings/Spinner";
+import { ListItem } from "../../../list/ListItem";
+import { AText } from "../../../text/AText";
+import { ColorsTheme } from "../../../Colors.theme";
 import Icon from "react-native-vector-icons/Feather";
 
 type Props<T, TKey> = {

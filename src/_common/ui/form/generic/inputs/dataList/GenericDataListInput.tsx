@@ -1,8 +1,8 @@
 import React from "react";
-import { GenericConfigDataList } from "../_models/GenericFormConfig.model";
+import { GenericConfigDataList } from "../../_models/GenericFormConfig.model";
 import { useController, useFormContext } from "react-hook-form";
-import { DataListUtils } from "../../../../datalist/DataList.utils";
-import { ADataListInput } from "../../dataList/ADataListInput";
+import { DataListUtils } from "./DataList.utils";
+import { ADataListInput } from "../../../inputs/dataList/ADataListInput";
 
 type Props = {
   name: string;

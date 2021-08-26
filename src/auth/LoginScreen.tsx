@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, StyleSheet, View } from "react-native";
-import { ATextInput } from "../_common/ui/form/ATextInput";
+import { ATextInput } from "../_common/ui/form/inputs/ATextInput";
 import { userService } from "./_services/User.service";
 import { useNavigation } from "@react-navigation/native";
 import { Screen } from "../_common/ui/Screen";

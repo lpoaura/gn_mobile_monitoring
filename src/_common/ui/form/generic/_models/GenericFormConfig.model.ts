@@ -64,13 +64,9 @@ export type GenericConfigDataList = BaseGenericConfig & {
   params?: Record<string, string | number | boolean>;
 };
 
-export type GenericConfigNomenclature = Omit<GenericConfigDataList, "type_widget"> & {
+export type GenericConfigNomenclature = BaseGenericConfig & {
   type_widget: "nomenclature";
   code_nomenclature_type: string;
-  value: {
-    cd_nomenclature: string;
-    cd_nomenclature_type: string;
-  };
 };
 
 export type GenericFormConfig =

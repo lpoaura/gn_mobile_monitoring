@@ -1,12 +1,12 @@
 import { GenericConfigDataList } from "../ui/form/generic/_models/GenericFormConfig.model";
 import { fetchUtils } from "../_utils/Fetch.utils";
-import { appConfig } from "../../_configs/appConfig";
+import { instancesService } from "../../instances/_services/Instances.service";
 
 const cache: Record<string, Promise<any>> = {};
 
 export const DataListUtils = {
   fetchItems<T = any>(config: GenericConfigDataList): Promise<T[]> {
-    let url = `${appConfig.apiUrl}/${config.api}`;
+    let url = `${instancesService.instance.apiUrl}/${config.api}`;
     if (config.params) {
       url +=
         "?" +

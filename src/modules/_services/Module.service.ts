@@ -1,10 +1,10 @@
 import { LoadingState, LoadingStatus } from "../../_common/loadings/_models/LoadingState.model";
 import { loadingUtils } from "../../_common/loadings/_utils/Loading.utils";
 import { fetchUtils } from "../../_common/_utils/Fetch.utils";
-import { appConfig } from "../../_configs/appConfig";
 import { action, IObservableArray, observable } from "mobx";
 import { ModuleConfigResponse } from "../_models/ModuleConfig.model";
 import { Resource, ResourceResponse } from "../../resources/_model/ResourceResponse.model";
+import { instancesService } from "../../instances/_services/Instances.service";
 
 export type ResourcePath = { resourceId: number; resourceType: string }[];
 
@@ -17,38 +17,17 @@ type ResourceState = {
 type ResourcesByParents = Record<number /* parent id */, ResourceState>;
 
 export class ModuleService {
-  moduleCode: string;
-  loadingState = new LoadingState();
-  configLoadingState = new LoadingState<ModuleConfigResponse>();
-  module = observable.box<ResourceResponse>();
+  readonly moduleCode: string;
 
-  resourcesChildren = observable<Record<string, ResourcesByParents>>({});
-  resources = observable<Record<string, Record<number /* id */, Resource>>>({});
+  readonly loadingState = new LoadingState();
+  readonly configLoadingState = new LoadingState<ModuleConfigResponse>();
+  readonly module = observable.box<ResourceResponse>();
+
+  readonly resources = observable<Record<string /* type */, Record<number /* id */, Resource>>>({});
+  readonly resourcesChildren = observable<Record<string, ResourcesByParents>>({});
 
   constructor(moduleCode: string) {
     this.moduleCode = moduleCode;
-  }
-
-  getResourcesChildren(resourceType: string, resourceId: number) {
-    return this.resourcesChildren[resourceType]?.[resourceId]?.resources;
-  }
-
-  loadConfig() {
-    return loadingUtils.fromPromise(
-      () =>
-        fetchUtils
-          .get<ModuleConfigResponse>(`${appConfig.apiUrl}/monitorings/config/${this.moduleCode}`)
-          .then(({ data }) => data),
-      this.configLoadingState,
-    );
-  }
-
-  loadModule() {
-    return this.loadResource("module");
-  }
-
-  loadResourceChildren(resourceType: string, resourceId: number) {
-    return this.loadResource(resourceType, resourceId);
   }
 
   getResource(resourceType: string, resourceId: number) {
@@ -59,9 +38,31 @@ export class ModuleService {
     return this.configLoadingState.value?.[resourceType];
   }
 
+  getResourcesChildren(childrenResourceType: string, parentResourceId: number) {
+    return this.resourcesChildren[childrenResourceType]?.[parentResourceId]?.resources;
+  }
+
+  loadConfig() {
+    return loadingUtils.fromPromise(
+      () =>
+        fetchUtils
+          .get<ModuleConfigResponse>(`${instancesService.instance.apiUrl}/monitorings/config/${this.moduleCode}`)
+          .then(({ data }) => data),
+      this.configLoadingState,
+    );
+  }
+
+  loadModule() {
+    return this.loadResourceWithChildren("module");
+  }
+
+  loadResourceChildren(resourceType: string, resourceId: number) {
+    return this.loadResourceWithChildren(resourceType, resourceId);
+  }
+
   saveResource(parentId: number, resourceType: string, properties: any) {
     return fetchUtils
-      .post<Resource>(`${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/${resourceType}`, {
+      .post<Resource>(`${instancesService.instance.apiUrl}/monitorings/object/${this.moduleCode}/${resourceType}`, {
         id_parent: parentId,
         properties,
       })
@@ -79,7 +80,7 @@ export class ModuleService {
       );
   }
 
-  private loadResource = action((resourceType: string, resourceId?: number) => {
+  private loadResourceWithChildren = action((resourceType: string, resourceId?: number) => {
     const isRootResource = resourceType === "module";
     if (!isRootResource && !this.resourcesChildren[resourceType]?.[resourceId!]) {
       this.resourcesChildren[resourceType] = this.resourcesChildren[resourceType] ?? {};
@@ -89,7 +90,7 @@ export class ModuleService {
       };
     }
 
-    const url = `${appConfig.apiUrl}/monitorings/object/${this.moduleCode}/${resourceType}${
+    const url = `${instancesService.instance.apiUrl}/monitorings/object/${this.moduleCode}/${resourceType}${
       isRootResource ? "" : `/${resourceId}`
     }?depth=1`;
 

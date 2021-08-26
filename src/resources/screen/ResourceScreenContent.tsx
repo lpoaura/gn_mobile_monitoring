@@ -38,7 +38,7 @@ export function ResourceScreenContent() {
         </AText>
         <Icon
           name="plus-square"
-          onPress={() => navigation.navigate(ModuleRoute.resourceForm, route.params)}
+          onPress={() => (navigation.navigate as any)(ModuleRoute.resourceForm, route.params)}
           size={30}
           color={ColorsTheme.secondary}
         />

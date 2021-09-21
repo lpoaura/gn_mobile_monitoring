@@ -1,7 +1,7 @@
 import React from "react";
 import { GenericConfigDataList } from "../../_models/GenericFormConfig.model";
 import { useController, useFormContext } from "react-hook-form";
-import { DataListUtils } from "./DataList.utils";
+import { dataListService } from "./DataList.service";
 import { ADataListInput } from "../../../inputs/dataList/ADataListInput";
 
 type Props = {
@@ -19,12 +19,12 @@ export function GenericDataListInput(props: Props) {
   return (
     <ADataListInput<any, any>
       fetch={search =>
-        DataListUtils.fetchItems(props.config).then(
-          fetchItems => {
-            fetchItems.map(item => {
+        dataListService.fetchItems(props.config).promise!.then(
+          fetchedItems => {
+            fetchedItems.map(item => {
               itemsIndexRef.current[item[props.config.keyValue]] = item;
             });
-            return fetchItems.filter(
+            return fetchedItems.filter(
               item => item[props.config.keyLabel].toLowerCase().indexOf(search.toLowerCase()) >= 0,
             );
           }, // TODO fuzzy search

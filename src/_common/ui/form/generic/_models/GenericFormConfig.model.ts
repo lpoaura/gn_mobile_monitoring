@@ -19,6 +19,11 @@ export type GenericConfigDate = BaseGenericConfig & {
   type_widget: "date";
 };
 
+export type GenericConfigDateUtil = BaseGenericConfig & {
+  type_widget: undefined;
+  type_util: "date";
+};
+
 export type GenericConfigTime = BaseGenericConfig & {
   type_widget: "time";
 };
@@ -80,4 +85,5 @@ export type GenericFormConfig =
   | GenericConfigSelect
   | GenericConfigTaxonomy
   | GenericConfigNomenclature
-  | GenericConfigDataList;
+  | GenericConfigDataList
+  | GenericConfigDateUtil;

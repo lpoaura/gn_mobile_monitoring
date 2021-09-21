@@ -4,7 +4,7 @@ export const ColorsTheme = {
   secondaryDark: "#1d484b",
   secondaryDarkTransparent: "rgba(29,72,75, .75)",
   secondaryLight: "#387778",
-  secondaryLightest: "#f5f8f8",
+  secondaryLightest: "#f0f5f5",
   tertiary: "#000",
   background: "#FFF",
   buttonDisabled: "#bababa",

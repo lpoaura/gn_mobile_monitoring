@@ -4,11 +4,10 @@ import { useModuleService } from "../../modules/_services/Module.context";
 import { Resource } from "../_model/ResourceResponse.model";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableRipple } from "react-native-paper";
-import { AText } from "../../_common/ui/text/AText";
-import { ColorsTheme } from "../../_common/ui/Colors.theme";
 import { ListItem } from "../../_common/ui/list/ListItem";
 import { StyleSheet, View } from "react-native";
 import _ from "lodash";
+import { ResourceItemProperty } from "./ResourceItemProperty";
 
 type Props = {
   navigationTree: ResourcesNavigationTree;
@@ -50,15 +49,11 @@ export function ResourceItem(props: Props) {
             <View key={index} style={styles.row}>
               {row.map(propertyKey => (
                 <View key={propertyKey} style={styles.properties}>
-                  <AText theme="small" color={ColorsTheme.textOnPrimary}>
-                    {resourceConfig?.generic[propertyKey]?.attribut_label ??
-                      resourceConfig?.specific[propertyKey]?.attribut_label}
-                  </AText>
-                  <AText theme="normal" color={ColorsTheme.textOnPrimary}>
-                    {props.resource.properties[propertyKey] === "" || props.resource.properties[propertyKey] == null
-                      ? "-"
-                      : props.resource.properties[propertyKey]}
-                  </AText>
+                  <ResourceItemProperty
+                    resourceConfig={resourceConfig}
+                    resource={props.resource}
+                    propertyKey={propertyKey}
+                  />
                 </View>
               ))}
             </View>

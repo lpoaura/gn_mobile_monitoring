@@ -13,12 +13,10 @@ export class LoadingState<TValue = void> {
   value?: TValue;
   promise?: Promise<TValue>;
 
-  constructor(
-    initialState: LoadingStatus = LoadingStatus.IDLE,
-    promise?: Promise<TValue>,
-  ) {
+  constructor(initialState: LoadingStatus = LoadingStatus.IDLE, promise?: Promise<TValue>, value?: TValue) {
     this.status.set(initialState);
     this.promise = promise;
+    this.value = value;
   }
 
   startLoading = action((promise?: Promise<TValue>) => {
@@ -55,9 +53,6 @@ export class LoadingState<TValue = void> {
   });
 
   isSucceededOrLoading = computed(() => {
-    return (
-      this.status.get() === LoadingStatus.SUCCEEDED ||
-      this.status.get() === LoadingStatus.LOADING
-    );
+    return this.status.get() === LoadingStatus.SUCCEEDED || this.status.get() === LoadingStatus.LOADING;
   });
 }

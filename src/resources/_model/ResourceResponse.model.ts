@@ -1,6 +1,6 @@
 import { Geometry } from "geojson";
 
-type Primitive = string | number | boolean;
+export type Primitive = string | number | boolean;
 
 export type Resource = {
   properties: Record<string, Primitive | Primitive[]>;
